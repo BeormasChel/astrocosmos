@@ -1,0 +1,88 @@
+# --- Секреты и окружение ---
+.env
+.env.local
+.env.*.local
+!.env.example
+*.pem
+*.key
+secrets/
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+*.egg-info/
+.eggs/
+dist/
+build/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.tox/
+*.log
+
+# --- Node / frontend ---
+node_modules/
+frontend/dist/
+frontend/.vite/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# --- Docker / runtime ---
+*.pid
+docker/data/
+postgres-data/
+redis-data/
+mosquitto/data/
+mosquitto/log/
+
+# --- Медиа и контент (хранятся на NFS/SSD, не в git) ---
+media/content/
+media/uploads/
+*.mp4
+*.mov
+*.mkv
+*.avi
+*.unitypackage
+clients/holobox/unity_project/
+
+# --- ESP32 / PlatformIO ---
+microcontrollers/**/.pio/
+microcontrollers/**/.vscode/
+*.elf
+*.bin
+*.map
+
+# --- Raspberry Pi образы и кэш ---
+*.img
+*.iso
+
+# --- IDE и ОС ---
+.idea/
+.vscode/
+!.vscode/extensions.json
+*.swp
+*.swo
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# --- Тесты и отчёты ---
+.hypothesis/
+coverage/
+playwright-report/
+test-results/
+
+# --- Локальные бэкапы ---
+*.bak
+*.tmp
+*~
