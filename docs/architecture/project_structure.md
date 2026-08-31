@@ -1,94 +1,45 @@
 # Структура репозитория «Астрокосмос»
 
-Репозиторий содержит **ядро управления** и клиентский код комплексов 1–7.
-Комплекс №8 (обсерваторный «Диптих») живёт в отдельном проекте; здесь только
-HTTP-адаптер и контракт API.
+Ядро управляет комплексами **1–7**. Комплекс №8 — отдельный проект со **своим**
+MQTT; здесь позже появится только адаптер. Тумба RFID — часть большого голобокса.
 
 ```
 AI Astro206/
-├── .env.example                 # Шаблон секретов (копировать в .env)
-├── .gitignore
-├── docker-compose.yml           # Postgres, Redis, Mosquitto, API, Celery, Nginx
-├── README.md
-│
-├── backend/                     # FastAPI + Celery
-│   ├── app/
-│   │   ├── main.py              # Точка входа ASGI
-│   │   ├── core/                # Config, JWT, константы устройств
-│   │   ├── api/v1/endpoints/    # REST /api/v1/*
-│   │   ├── models/              # SQLAlchemy (этап MVP-1)
-│   │   ├── schemas/             # Pydantic
-│   │   ├── services/            # Сценарии, контент, устройства
-│   │   ├── mqtt/                # Мост к Mosquitto (префикс astroc/)
-│   │   ├── workers/             # Celery app + задачи расписания
-│   │   └── integrations/observatory/  # Клиент внешней системы №8
-│   ├── alembic/                 # Миграции PostgreSQL
-│   └── tests/                   # pytest: unit + integration
-│
-├── frontend/                    # Админка React + TypeScript (Vite)
-│   └── src/
-│       ├── api/                 # Axios к /api/v1
-│       ├── pages/               # Дашборд, комплексы, сценарии, CMS, расписание
-│       ├── components/layout/
-│       ├── stores/              # Zustand (сессия)
-│       └── types/
-│
-├── raspberry_pi/                # Агенты киосков (не голобоксы)
-│   ├── shared/                  # MQTT heartbeat, конфиг, NFS
-│   ├── illuminator/             # 4K-плеер
-│   ├── astrovizor/              # Уличный киоск + видеопоток
-│   └── pedestal/                # Тумба + RFID
-│
-├── microcontrollers/            # PlatformIO, только «наши» ESP32
+├── backend/                     # FastAPI, Celery, MQTT astroc/, адаптеры
+│   └── app/integrations/
+│       ├── observatory/         # №8, когда появится OpenAPI
+│       └── home_assistant/      # свет и жалюзи
+├── frontend/                    # Админка для педагога (React + Vite)
+├── kiosk/                       # Тач-GUI киосков (React, Chromium на Pi)
+│   └── README.md
+├── raspberry_pi/
 │   ├── shared/
-│   ├── planet_clock/            # WS2812, NTP, MQTT
-│   ├── desktop_diptych/         # Настольный помощник №3
-│   ├── illuminator_remote/      # Пульт посетителя
-│   └── astrovizor_gimbal/       # Az/El, не путать с Vizor купола
-│
-├── clients/holobox/             # Контракт Unity (Windows), без бинарников
-│   ├── maly_golobox/
-│   └── bolshoy_golobox/
-│
+│   ├── maly_golobox/            # №1 агент + запуск киоска
+│   ├── bolshoy_golobox/         # №2 агент + PN532 тумбы
+│   ├── illuminator/             # №5 Pi 5, 4K
+│   └── astrovizor/              # №6 поток камеры на экран
+├── microcontrollers/
+│   ├── planet_clock/
+│   ├── desktop_diptych/         # PN532 + голос
+│   └── illuminator_remote/
 ├── docker/
-│   ├── backend.Dockerfile
-│   ├── frontend.Dockerfile
-│   ├── nginx/
-│   └── mosquitto/
-│
-├── tests/                       # Межсервисные и e2e
-│   ├── integration/
-│   └── e2e/
-│
-├── scripts/                     # Деплой, бэкап, провижининг RPi
-│
+├── tests/
 └── docs/
-    ├── context/                 # Концепция и ТЗ комплексов
-    ├── architecture/            # Структура и решения до старта
-    ├── integration/             # Контракт API обсерватории
-    ├── mqtt/                    # Карта топиков astroc/
-    ├── api/                     # Обзор REST ядра
-    ├── project_management/      # Роадмап и задачи
-    ├── development/             # Стандарты кода
-    └── scenarios/               # Педагогические сценарии
+    ├── architecture/            # ADR, UI/UX, runtime голобоксов
+    ├── integration/             # HA, черновик API обсерватории
+    └── project_management/
 ```
 
-## Что сюда не кладём
+Unity-проекты и 4K-файлы в git не входят (контент-студия отдельно, медиа на NFS).
 
-- Прошивки MCC-1, Vizor-1/2/3, T-Connect, T-Panel купола
-- Исходники Diptich_hub и MongoDB обсерватории
-- Unity-проекты и AssetBundles (ссылка и контракт — в `clients/holobox/`)
-- Медиафайлы 4K (`/media/content` на NFS)
+## Идентификаторы MQTT / реестра
 
-## Идентификаторы устройств
-
-| id | Комплекс |
-|----|----------|
-| `maly_golobox` | №1 Малый Голобокс |
-| `bolshoy_golobox` | №2 Большой Голобокс |
-| `desktop_diptych` | №3 Настольный Диптих |
-| `planet_clock` | №4 Астрономические часы |
-| `illuminator` | №5 Иллюминатор |
-| `astrovizor` | №6 Астровизор |
-| `pedestal` | №7 Интерактивная тумба |
-| `observatory` | №8 Виртуальный адаптер к Diptich_hub |
+| id | Что |
+|----|-----|
+| `maly_golobox` | №1 |
+| `bolshoy_golobox` | №2 + события RFID тумбы |
+| `desktop_diptych` | №3 |
+| `planet_clock` | №4 |
+| `illuminator` | №5 |
+| `astrovizor` | №6 |
+| `observatory` | №8, адаптер позже |

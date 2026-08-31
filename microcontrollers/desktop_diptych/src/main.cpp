@@ -1,16 +1,13 @@
 /**
  * @file main.cpp
- * @brief Заглушка прошивки настольного помощника «Диптих».
- *
- * Экран T-Panel, RFID (PN532/MFRC522), захват аудио. STT/TTS выполняются на сервере.
- * Не путать с T-Panel обсерваторного «Диптиха».
+ * @brief Настольный «Диптих»: T-Panel, PN532, аудио. STT/TTS на сервере.
  */
 
 #include <Arduino.h>
 
 void setup() {
   Serial.begin(115200);
-  Serial.println("desktop_diptych firmware stub");
+  Serial.println("desktop_diptych firmware stub (PN532)");
 }
 
 void loop() {

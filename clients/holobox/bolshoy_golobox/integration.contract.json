@@ -1,7 +1,0 @@
-{
-  "device_id": "bolshoy_golobox",
-  "protocol": "http+mqtt",
-  "command_path": "/local/command",
-  "mqtt_status_topic": "astroc/devices/bolshoy_golobox/status",
-  "mqtt_command_topic": "astroc/devices/bolshoy_golobox/command"
-}

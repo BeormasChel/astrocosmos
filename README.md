@@ -1,7 +1,7 @@
 # Астрокосмос
 
 Интерактивный образовательный комплекс для детей и подростков (6–17 лет):
-восемь физических экспонатов под управлением единого ядра.
+семь интерактивных контуров (1–7) под единой админкой; обсерватория — отдельный контур.
 
 > **Принцип:** не просто показать, а вовлечь. Не просто рассказать, а дать
 > потрогать, услышать, увидеть и прочувствовать.
@@ -23,9 +23,10 @@
 
 - Backend: Python 3.10+, FastAPI, PostgreSQL, Celery, Redis, MQTT (Mosquitto)
 - Frontend: React 18, TypeScript, Vite
-- Киоски: Raspberry Pi (Иллюминатор, Астровизор, тумба)
-- Голобоксы: Windows + Unity (отдельные ПК, интеграция по HTTP/MQTT)
-- МК: ESP32 (часы, настольный Диптих, пульт Иллюминатора, механика Астровизора)
+- Киоски: Raspberry Pi (голобоксы, Иллюминатор Pi 5, Астровизор)
+- Тумба RFID: PN532 на Pi большого голобокса
+- МК: ESP32 (часы, настольный Диптих, пульт Иллюминатора)
+- Комфорт: Home Assistant через ядро; обсерватория — свой MQTT
 
 ## Быстрый старт (после наполнения заглушек)
 
@@ -41,8 +42,10 @@ docker compose up --build
 
 - Контекст проекта: [`docs/context/00_README.md`](docs/context/00_README.md)
 - Структура репозитория: [`docs/architecture/project_structure.md`](docs/architecture/project_structure.md)
-- Решения до старта разработки: [`docs/architecture/pre_dev_decisions.md`](docs/architecture/pre_dev_decisions.md)
-- План MVP: [`docs/project_management/roadmap.md`](docs/project_management/roadmap.md)
+- Решения до старта: [`docs/architecture/pre_dev_decisions.md`](docs/architecture/pre_dev_decisions.md)
+- UI/UX: [`docs/architecture/ui_ux.md`](docs/architecture/ui_ux.md)
+- Голобоксы на Pi: [`docs/architecture/holobox_runtime.md`](docs/architecture/holobox_runtime.md)
+- План: [`docs/project_management/roadmap.md`](docs/project_management/roadmap.md)
 - Интеграция с обсерваторией: [`docs/integration/observatory_api.md`](docs/integration/observatory_api.md)
 
 ## Ветки Git

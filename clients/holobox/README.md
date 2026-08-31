@@ -1,13 +1,7 @@
-# Клиенты голобоксов (Windows + Unity)
+# Клиенты голобоксов
 
-Малый (21.5") и Большой (72") голобоксы — **не Raspberry Pi**.
-По модульным ТЗ это Windows 11 kiosk + Unity (URP / HDRP).
-RPi не тянет 4K HDRP и эффект прозрачного экрана с 3D.
+Runtime — Raspberry Pi, каталоги `raspberry_pi/maly_golobox` и
+`raspberry_pi/bolshoy_golobox`, UI в `kiosk/`.
 
-В этом репозитории — только **контракт интеграции** с ядром:
-
-- HTTP: запуск раздела, idle, получение манифеста контента
-- MQTT: heartbeat, события касаний/RFID, подтверждение команд
-- Сам Unity-проект хранится отдельно (большой бинарный контент)
-
-Прошивки и сцены Unity в git ядра не кладём.
+Windows/Unity-плеер не используется. Unity может остаться студией роликов
+и glTF (см. `docs/architecture/holobox_runtime.md`).

@@ -21,6 +21,8 @@ class Settings(BaseSettings):
     secret_key: str = "change-me"
     access_token_expire_minutes: int = 480
 
+    database_url: str = "sqlite+aiosqlite:///./data/astrocosmos.db"
+
     postgres_host: str = "localhost"
     postgres_port: int = 5432
     postgres_db: str = "astrocosmos"
@@ -37,20 +39,31 @@ class Settings(BaseSettings):
     mqtt_password: str = ""
     mqtt_topic_prefix: str = "astroc"
 
-    media_root: str = "/media/content"
+    media_root: str = "./data/media"
 
     observatory_api_base_url: str = "http://localhost:8080/api"
     observatory_api_token: str = ""
     observatory_timeout_seconds: int = 15
     observatory_webhook_secret: str = ""
 
+    ha_base_url: str = ""
+    ha_token: str = ""
+
+    # Автозапуск слотов внутри процесса ядра (без Redis на локальном стенде).
+    schedule_ticker_enabled: bool = True
+    schedule_tick_seconds: int = 20
+
+    # Учебный стенд: комплексы «на связи» без Raspberry Pi.
+    hall_emulator_enabled: bool = True
+    hall_emulator_seconds: int = 10
+
     @property
-    def database_url(self) -> str:
-        """Синхронный URL SQLAlchemy (для Alembic)."""
+    def sync_database_url(self) -> str:
+        """URL для Alembic (синхронный драйвер)."""
 
         return (
-            f"postgresql+asyncpg://{self.postgres_user}:{self.postgres_password}"
-            f"@{self.postgres_host}:{self.postgres_port}/{self.postgres_db}"
+            self.database_url.replace("sqlite+aiosqlite://", "sqlite://")
+            .replace("postgresql+asyncpg://", "postgresql+psycopg2://")
         )
 
 

@@ -14,6 +14,13 @@ uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 
 Документация OpenAPI: http://localhost:8000/docs
 
+Демо-вход: `educator` / `educator`, `admin` / `admin`, `attendant` / `attendant`.
+Локально по умолчанию SQLite в `backend/data/`. Heartbeat без железа:
+
+```bash
+python ../scripts/simulate_heartbeat.py
+```
+
 ## Тесты
 
 ```bash
